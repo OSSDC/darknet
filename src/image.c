@@ -13,8 +13,8 @@
 #ifdef OPENCV
 #include "opencv2/highgui/highgui_c.h"
 #include "opencv2/imgproc/imgproc_c.h"
+#include "opencv2/videoio/videoio_c.h"
 #endif
-
 
 int windows = 0;
 
@@ -402,6 +402,24 @@ void rgbgr_image(image im)
 void show_image_cv(image p, const char *name)
 {
     int x,y,k;
+
+    /*
+    //TODO MS must parametrize this section
+    image m = p;
+    int w = 448;
+    int h = ((float)m.h/m.w) * 448;
+    if(h > 896){
+        h = 896;
+        w = ((float)m.w/m.h) * 896;
+    }
+
+    
+    //image sized = crop_image(m, 350, 250, 1280-700, 720-500); //resize_image(m, w, h);
+    image sized = crop_image(m, 450, 250, 1280-900, 720-500); //resize_image(m, w, h);
+    p = sized;
+    //TODO 
+    */
+
     image copy = copy_image(p);
     constrain_image(copy);
     if(p.c == 3) rgbgr_image(copy);
@@ -1333,14 +1351,18 @@ void show_images(image *ims, int n, char *window)
 {
     image m = collapse_images_vert(ims, n);
     /*
-       int w = 448;
-       int h = ((float)m.h/m.w) * 448;
-       if(h > 896){
-       h = 896;
-       w = ((float)m.w/m.h) * 896;
-       }
-       image sized = resize_image(m, w, h);
-     */
+    //TODO MS must parametrize this
+    int w = 448;
+    int h = ((float)m.h/m.w) * 448;
+    if(h > 896){
+        h = 896;
+        w = ((float)m.w/m.h) * 896;
+    }
+
+    image sized = resize_image(m, w, h);
+    m = sized;
+    */
+
     normalize_image(m);
     save_image(m, window);
     show_image(m, window);
